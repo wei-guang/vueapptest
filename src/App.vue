@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <test></test>
+    <test msg="这是新的属性值"></test>
 
   </div>
 </template>
