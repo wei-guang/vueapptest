@@ -9,7 +9,13 @@
     </form>
 
     <ul>
-      <li v-for="user in users">{{user.name}}:{{user.email}}</li>
+      <li v-for="user in users">
+        <input type="checkbox" class="toggle" v-model="user.contacted">
+        <span :class="{contacted:user.contacted}">
+          {{user.name}}:{{user.email}}
+          <button v-on:click="deleteUser(user)">del</button>
+        </span>
+      </li>
     </ul>
 
   </div>
@@ -26,16 +32,6 @@
             name:"Hemiaf Zhang",
             email:"xxxx@mail.com",
             contacted:false
-          },
-          {
-            name:"Henry Zhang",
-            email:"xxxx@mail.com",
-            contacted:false
-          },
-          {
-            name:"Emily Zhang",
-            email:"xxxx@mail.com",
-            contacted:false
           }
         ]
       }
@@ -49,11 +45,25 @@
           contacted:false
         });
         e.preventDefault();
+      },
+
+      deleteUser:function (user) {
+        //console.log("jjj")
+        this.users.splice(this.users.indexOf(user),1);
       }
+    },
+    created:function () {//重要的事情说一万遍，不要把它写到methods里！！！！！
+      //console.log("jdjdjdjdj");
+      this.$http.get("http://jsonplaceholder.typicode.com/users").then(function (response) {
+        // console.log(response.data);
+        this.users=response.data;
+      })
     }
   }
 </script>
 
 <style scoped>
-
+  .contacted{
+    text-decoration: line-through;
+  }
 </style>
